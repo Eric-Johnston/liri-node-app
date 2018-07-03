@@ -54,10 +54,11 @@ for(i = 2; i < cmd.length; i++){
             })
         }
 
-        function spotifySearch(){
+        function spotifySearch(songName){
             console.log("Finding song...");
             console.log("-----------------------------------------------");
-            var params = {type: "track", query: cmd[3]}
+            var songName = cmd[3]
+            var params = {type: "track", query: songName}
             spotify.search(params, function(err, data){
                 if(!err){
                     console.log("Artist: " + data.tracks.items[0].artists[0].name);
@@ -110,26 +111,41 @@ for(i = 2; i < cmd.length; i++){
                     console.log("Country: " + JSON.parse(body).Country);
                     console.log("Language: " + JSON.parse(body).Language);
                     console.log("Plot: " + JSON.parse(body).Plot);
-                    console.log("Actors: " + JSON.parse(body).Actors)
+                    console.log("Actors: " + JSON.parse(body).Actors);
                     console.log("-----------------------------------------------");
                 }
                 else{
-                    console.log("An error occured: " + error)
+                    console.log("An error occured: " + error);
                     console.log("-----------------------------------------------");
                 }
             })
         }
 
-        function textRead(){
-            fs.readFile("random.txt", "utf-8", function(err, data){
-                var obj = false;
-                if(obj){
-                    return console.log(err)
-                }
-                var output = data
-                console.log(output)
-                txtFile.push(output)
-                console.log(txtFile)
-            })
-        }
 }
+            function textRead(){
+                fs.readFile("random.txt", "utf-8", function(err, data){
+                    console.log("Finding song...");
+                    console.log("-----------------------------------------------");
+                    if(!err){
+                        var output = data.split(",");
+                        var songName = (output[1])
+                        var params = {type: "track", query: songName}
+                        spotify.search(params, function(err, data){
+                            if(!err){
+                                console.log("Artist: " + data.tracks.items[0].artists[0].name);
+                                console.log("Album: " + data.tracks.items[0].album.name);
+                                console.log("Song: " + data.tracks.items[0].name);
+                                console.log("Preview Link: " + data.tracks.items[0].preview_url);
+                                console.log("--------------------------------------------");
+                            }
+                            else{
+                                console.log("Error occured: " + err);
+                                console.log("-----------------------------------------------");
+                            }
+                        })
+                    }
+                    else{
+                        return console.log(err);
+                    }
+                })
+            }

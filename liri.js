@@ -48,7 +48,7 @@ for(i = 2; i < cmd.length; i++){
         function myTweets(){
             console.log("Grabbing tweets...");
             console.log("-----------------------------------------------");
-            var params = {screen_name: "CheeseTony", count: 5}
+            var params = {screen_name: "CheeseTony", count: 20}
             client.get("statuses/user_timeline", params, function(error, tweets, response){
     
                 for(var i = 0; i < tweets.length; i++){
